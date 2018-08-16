@@ -257,13 +257,13 @@ export class NetworkerThread {
   }
 
   sendLongPoll: () => Promise<boolean | void> = async () => {
-    const maxWait = 25000
+    const maxWait = 60000
     this.longPollPending = tsNow() + maxWait
     // console.log('Set lp', this.longPollPending, tsNow())
 
     await this.wrapMtpCall('http_wait', {
-      max_delay : 500,
-      wait_after: 150,
+      max_delay : 5000,
+      wait_after: 1500,
       max_wait  : maxWait
     }, {
       noResponse: true,
@@ -490,9 +490,9 @@ export class NetworkerThread {
     if (hasApiCall && !hasHttpWait) {
       const serializer = this.Serialization({ mtproto: true })
       serializer.storeMethod('http_wait', {
-        max_delay : 500,
-        wait_after: 150,
-        max_wait  : 3000
+        max_delay : 5000,
+        wait_after: 1500,
+        max_wait  : 30000
       })
       messages.push(new NetMessage(
         this.generateSeqNo(),

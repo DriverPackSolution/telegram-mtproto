@@ -1,6 +1,6 @@
 {
   "description": "Telegram MTProto library",
-  "name": "telegram-mtproto",
+  "name": "@drp/telegram-mtproto",
   "license": "MIT",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",

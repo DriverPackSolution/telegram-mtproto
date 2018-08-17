@@ -2,6 +2,7 @@
 
 import Promise from 'bluebird'
 import isNode from 'detect-node'
+import throttle from 'lodash.throttle'
 
 import is from 'ramda/src/is'
 import contains from 'ramda/src/contains'
@@ -243,7 +244,7 @@ export class NetworkerThread {
       this.sleepAfter < tsNow()
   )
 
-  checkLongPoll = async () => {
+  checkLongPoll = throttle(async () => {
     const isClean = this.cleanupSent()
     // console.log('Check lp', this.longPollPending, tsNow(), this.dcID, isClean)
     if (this.checkLongPollCond())
@@ -254,7 +255,7 @@ export class NetworkerThread {
       // console.warn(dTime(), 'Send long-poll for DC is delayed', this.dcID, this.sleepAfter)
       return
     return this.sendLongPoll()
-  }
+  }, 1500)
 
   sendLongPoll: () => Promise<boolean | void> = async () => {
     const maxWait = 60000
